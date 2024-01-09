@@ -1,8 +1,21 @@
+# coding=utf-8
 import sys
 import argparse
 from monitoring.logger import Logger
 from cli.cli import CLI
 from job.job_scheduler import JobScheduler
+from resource_manager.resource_manager import ResourceManager
+
+# gloable varible
+job_scheduler = None
+resource_manager = None
+
+def init():
+    print("init system variable")
+    job_scheduler = JobScheduler()
+    resource_manager = ResourceManager()
+    
+
 
 # 配置命令行参数
 def parse_arguments():
@@ -14,22 +27,15 @@ def parse_arguments():
 # 主函数
 def main():
     # 解析命令行参数
-    args = parse_arguments()
+    # args = parse_arguments()
     
     # 初始化日志
-    Logger.setup_logging()
+    # Logger.setup_logging()
 
     # 实例化CLI
     cli = CLI()
-    
-    # 根据命令行参数执行相应的操作
-    if args.run:
-        # 运行作业调度器
-        scheduler = JobScheduler()
-        scheduler.start()
-    else:
-        # 启动CLI界面
-        cli.start()
+    # 启动CLI界面
+    cli.start()
 
 if __name__ == "__main__":
     try:

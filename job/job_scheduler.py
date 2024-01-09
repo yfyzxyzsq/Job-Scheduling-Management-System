@@ -1,5 +1,5 @@
-from node_selector import NodeSelector
-from k8s_adapter import KubernetesAPIAdapter
+from selector.node_selector import NodeSelector
+from k8s.k8s_adapter import KubernetesAPIAdapter
 
 class JobScheduler:
     def __init__(self, k8s_adapter, node_selector):
@@ -13,3 +13,4 @@ class JobScheduler:
 
     def schedule_job(self, image, job_type):
         # 调度任务
+        pass
