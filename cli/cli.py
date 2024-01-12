@@ -1,6 +1,8 @@
 from command.command_parser import CommandParser 
+from utils.class_container import Registry
 class CLI:
-    def __init__(self):
+    def __init__(self, registry):
+        self.registry = registry
         self.command_parser = CommandParser()
 
     def start(self):

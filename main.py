@@ -5,16 +5,24 @@ from monitoring.logger import Logger
 from cli.cli import CLI
 from job.job_scheduler import JobScheduler
 from resource_manager.resource_manager import ResourceManager
-
+from utils.class_container import Registry
 # gloable varible
-job_scheduler = None
-resource_manager = None
+
+
 
 def init():
     print("init system variable")
+    logger = Logger()
+    logger.LogInfo('init JobScheduler')
     job_scheduler = JobScheduler()
+    logger.LogInfo('init ResourceManger')
     resource_manager = ResourceManager()
     
+    registry = Registry()
+    registry.add_class(job_scheduler)
+    registry.add_class(resource_manager)
+    
+    return registry
 
 
 # 配置命令行参数
@@ -29,11 +37,10 @@ def main():
     # 解析命令行参数
     # args = parse_arguments()
     
-    # 初始化日志
-    # Logger.setup_logging()
+    registry = init()
 
     # 实例化CLI
-    cli = CLI()
+    cli = CLI(registry)
     # 启动CLI界面
     cli.start()
 
