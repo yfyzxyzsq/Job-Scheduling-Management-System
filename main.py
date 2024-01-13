@@ -6,22 +6,38 @@ from cli.cli import CLI
 from job.job_scheduler import JobScheduler
 from resource_manager.resource_manager import ResourceManager
 from utils.class_container import Registry
+from k8s.k8s_adapter import KubernetesAPIAdapter
+from selector.node_selector import NodeSelector
+from command.command_parser import CommandParser
 # gloable varible
 
-
+main_log_flag = f'[main]'
 
 def init():
     print("init system variable")
-    logger = Logger()
-    logger.LogInfo('init JobScheduler')
-    job_scheduler = JobScheduler()
-    logger.LogInfo('init ResourceManger')
-    resource_manager = ResourceManager()
+    logger_wrapper = Logger()
+    logger = logger_wrapper.logger
+    registry = Registry(logger)
     
-    registry = Registry()
-    registry.add_class(job_scheduler)
-    registry.add_class(resource_manager)
+    registry.add_class('logger', logger)
+    # 1 
+    k8s_adapter = KubernetesAPIAdapter(registry)
+    registry.add_class('k8s_adapter', k8s_adapter)
+    # 2
+    node_selector = NodeSelector(registry)
+    registry.add_class('node_selector', node_selector)
+    # 3
+    job_scheduler = JobScheduler(registry)
+    registry.add_class('job_scheduler', job_scheduler)
+    # 4
+    resource_manager = ResourceManager(registry)
+    registry.add_class('resource_manager', resource_manager)
     
+    # 5
+    command_parser = CommandParser(registry)
+    registry.add_class('command_parser', command_parser)
+    
+    logger.info(f'{main_log_flag} init system success')
     return registry
 
 

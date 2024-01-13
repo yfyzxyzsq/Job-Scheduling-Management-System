@@ -7,6 +7,8 @@ from datetime import datetime
 class Logger:
     
     def __init__(self):
+        print('init logger')
+        self.log_flag = f'[Logger]'
         self.cur_abs_path = os.path.dirname(os.path.abspath(__file__))
         date = datetime.now()
         date = date.strftime(f'%Y%m%d')
@@ -23,7 +25,7 @@ class Logger:
         console_handler.setLevel(logging.ERROR)  # 设置控制台输出的日志级别为ERROR
         
         # 创建一个formatter，用于设置日志的格式
-        formatter = logging.Formatter('[%(asctime)s - %(name)s - %(levelname)s] %(message)s')
+        formatter = logging.Formatter('[%(pathname)s:%(lineno)d][%(asctime)s - %(name)s - %(levelname)s] %(message)s')
 
         # 将formatter添加到handler中
         file_handler.setFormatter(formatter)
@@ -32,8 +34,8 @@ class Logger:
         logger.addHandler(file_handler)
         logger.addHandler(console_handler)
         self.logger = logger
-        self.logger.info(f'init logger ...')
-        self.logger.info(f'running day: {self.log_day}, log level: {self.logger.level}')
+        self.logger.info(f'{self.log_flag} init logger ...')
+        self.logger.info(f'{self.log_flag} running day: {self.log_day}, log level: {self.logger.level}')
         
         
         

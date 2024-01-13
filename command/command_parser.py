@@ -1,11 +1,12 @@
 from job.job_scheduler import JobScheduler
 # from resource.resource_manager import ResourceManager
 from resource_manager.resource_manager import ResourceManager
+from utils.class_container import Registry
 
 class CommandParser:
-    def __init__(self, job_scheduler, resource_manager):
-        self.job_scheduler = job_scheduler
-        self.resource_manager = resource_manager
+    def __init__(self, registry:Registry):
+        self.job_scheduler = registry.get_class('job_scheduler')
+        self.resource_manager = registry.get_class('resource_manager')
 
     def parse_execute(self, command_input):
         # 解析用户输入的命令

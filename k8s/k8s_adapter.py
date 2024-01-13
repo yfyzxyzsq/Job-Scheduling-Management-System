@@ -1,7 +1,12 @@
 from kubernetes import client, config
+from utils.class_container import Registry
 
 class KubernetesAPIAdapter:
-    def __init__(self):
+    def __init__(self, registry:Registry):
+        self.log_flag = f'[KubernetesAPIAdapter]'
+        self.logger = registry.get_class('logger')
+        self.logger.info(f'{self.log_flag} init KubernetesAPIAdapter')
+        
         config.load_kube_config()
         self.core_api = client.CoreV1Api()
 
